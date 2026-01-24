@@ -7,7 +7,7 @@ my_dict = {
         'third': 'Leyla',
         'fourth': 'Grok',
         'fifth': 'Tigril'
-        },
+    },
     'set': {'white', 'black', 'red', 'green', 'yellow'}
 }
 
