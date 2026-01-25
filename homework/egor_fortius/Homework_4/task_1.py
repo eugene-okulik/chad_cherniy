@@ -12,7 +12,7 @@ my_dict = {
 }
 
 # 1
-print(my_dict['tuple'][4])
+print(my_dict['tuple'][-1])
 
 # 2
 my_dict['list'].append(11)
