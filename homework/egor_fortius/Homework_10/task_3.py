@@ -29,7 +29,7 @@ def calc(first, second, operation):
     elif operation == '*':
         return first * second
     elif operation == '/':
-        return first / second
+        return round(first / second, 2)
     else:
         raise ValueError("Неизвестная операция")
 
