@@ -66,7 +66,7 @@ school_book2 = SchoolBooks(
     count_pg=180,
     isbn="978-5-12345-679-0",
     subject="История",
-    klass=7,
+    klass=9,
     has_exercises=True
 )
 
@@ -76,7 +76,7 @@ school_book3 = SchoolBooks(
     count_pg=150,
     isbn="978-5-12345-680-6",
     subject="География",
-    klass=8,
+    klass=9,
     has_exercises=True
 )
 
@@ -86,7 +86,7 @@ school_book4 = SchoolBooks(
     count_pg=220,
     isbn="978-5-12345-681-3",
     subject="Физика",
-    klass=10,
+    klass=9,
     has_exercises=True
 )
 
@@ -96,7 +96,7 @@ school_book5 = SchoolBooks(
     count_pg=190,
     isbn="978-5-12345-682-0",
     subject="Биология",
-    klass=6,
+    klass=9,
     has_exercises=False
 )
 
