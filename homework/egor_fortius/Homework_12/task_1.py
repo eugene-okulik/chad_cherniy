@@ -78,13 +78,14 @@ hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='Ию�
 
 
 class Buket:
-    def __init__(self,
-        name_of_bouquet: str,
-        price: float,
-        bouquet_height: float,  # высота букета в см
-        flowers_count: int,     # Количество цветов в букете
-        assembly_day: str,  # дата сборки (день месяца)
-        color: str = "разноцветный"
+    def __init__(
+            self,
+            name_of_bouquet: str,
+            price: float,
+            bouquet_height: float,  # высота букета в см
+            flowers_count: int,     # Количество цветов в букете
+            assembly_day: str,  # дата сборки (день месяца)
+            color: str = "разноцветный"
     ):
 
         self.name_of_bouquet = name_of_bouquet
