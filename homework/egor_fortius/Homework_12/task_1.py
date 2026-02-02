@@ -1,6 +1,3 @@
-from datetime import datetime
-from typing import Optional
-
 class Flowers:
     def __init__(
             self,
@@ -17,9 +14,9 @@ class Flowers:
         self.month_of_maturation = month_of_maturation
         self.color = color
 
-        def __str__() -> str:
-            return (f"{self.name} ({self.color}), цена: {self.price}₽, "
-                    f"стебель: {self.stem_length}см, месяц созревания: {self.month_of_maturation}.")
+    def __str__(self):
+        return (f"{self.name} ({self.color}), цена: {self.price}₽, "
+                f"стебель: {self.stem_length}см, месяц созревания: {self.month_of_maturation}.")
 
 
 class Roza(Flowers):
@@ -27,7 +24,7 @@ class Roza(Flowers):
             self,
             price: float,
             stem_length: float,
-            month_of_maturation: str,
+            month_of_maturation: str = "Июнь",
             color: str = "красный",
             has_thorns: bool = True,
             variety: str = "чайно-гибридная"
@@ -46,7 +43,7 @@ class Tulpan(Flowers):
             self,
             price: float,
             stem_length: float,
-            month_of_maturation: str,
+            month_of_maturation: str = "Апрель",
             color: str = "жёлтый",
             bud_size: str = "средний"  # маленький, средний, крупный
     ):
@@ -62,7 +59,7 @@ class Hrizantema(Flowers):
             self,
             price: float,
             stem_length: float,
-            month_of_maturation: str,
+            month_of_maturation: str = "Сентябрь",
             color: str = "белый",
             inflorescence_type: str = "помпонный"  # помпонный, анемоновидный, плоский
     ):
@@ -74,9 +71,9 @@ class Hrizantema(Flowers):
 
 
 # Экземпляры разных цветов
-rosa1 = Roza(price=150.0, stem_length=60, month_of_maturation='July', color="бордовый", variety="Пионовидная")
-tulpan1 = Tulpan(price=80.0, stem_length=40, month_of_maturation='March', color="оранжевый", bud_size="крупный")
-hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='June', color="жёлтый",
+rosa1 = Roza(price=150.0, stem_length=60, month_of_maturation='Июль', color="бордовый", variety="Пионовидная")
+tulpan1 = Tulpan(price=80.0, stem_length=40, month_of_maturation='Март', color="оранжевый", bud_size="крупный")
+hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='Июнь', color="жёлтый",
                          inflorescence_type="анемоновидный")
 
 
