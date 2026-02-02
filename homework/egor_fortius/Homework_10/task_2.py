@@ -10,4 +10,5 @@ def example(text):
     print(text)
 
 
+# вывод
 example('print me', count=2)

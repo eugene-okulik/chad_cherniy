@@ -10,4 +10,5 @@ PRICE_LIST = '''тетрадь 50р
 new_list = [x.rstrip('р') if "р" in x else x for x in PRICE_LIST.strip().split()]
 price_dict = {new_list[i]: int(new_list[i + 1]) for i in range(0, len(new_list), 2)}
 
+# вывод
 print(price_dict)

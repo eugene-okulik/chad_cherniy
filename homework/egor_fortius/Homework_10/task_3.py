@@ -34,6 +34,6 @@ def calc(first, second, operation):
         raise ValueError("Неизвестная операция")
 
 
-# Вызов функции
+# Вызов
 calc_result = calc(first, second)
 print("Результат:", calc_result)
