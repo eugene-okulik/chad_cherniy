@@ -78,3 +78,21 @@ rosa1 = Roza(price=150.0, stem_length=60, month_of_maturation='July', color="б�
 tulpan1 = Tulpan(price=80.0, stem_length=40, month_of_maturation='March', color="оранжевый", bud_size="крупный")
 hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='June', color="жёлтый",
                          inflorescence_type="анемоновидный")
+
+
+class Buket:
+    def __init__(self,
+        name_of_bouquet: str,
+        price: float,
+        bouquet_height: float,  # высота букета в см
+        flowers_count: int,     # Количество цветов в букете
+        assembly_day: str,  # дата сборки (день месяца)
+        color: str = "разноцветный"
+    ):
+
+        self.name_of_bouquet = name_of_bouquet
+        self.price = price
+        self.bouquet_height = bouquet_height
+        self.flowers_count = flowers_count
+        self.assembly_day = assembly_day
+        self.color = color
