@@ -94,3 +94,8 @@ class Buket:
         self.flowers_count = flowers_count
         self.assembly_day = assembly_day
         self.color = color
+
+    def __str__(self) -> str:
+        return (f"{self.name_of_bouquet} ({self.color}), цена: {self.price}₽, "
+                f"количество цветов в букете: {self.flowers_count}см,"
+                f" день сборки: {self.assembly_day}.")
