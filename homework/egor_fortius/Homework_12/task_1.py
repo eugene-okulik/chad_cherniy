@@ -71,3 +71,10 @@ class Hrizantema(Flowers):
 
     def __str__(self) -> str:
         return f"{super().__str__()}, тип соцветия: {self.inflorescence_type}."
+
+
+# Экземпляры разных цветов
+rosa1 = Roza(price=150.0, stem_length=60, month_of_maturation='July', color="бордовый", variety="Пионовидная")
+tulpan1 = Tulpan(price=80.0, stem_length=40, month_of_maturation='March', color="оранжевый", bud_size="крупный")
+hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='June', color="жёлтый",
+                         inflorescence_type="анемоновидный")
