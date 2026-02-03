@@ -85,15 +85,17 @@ class Tulpan(Flowers):
 
 
 class Hrizantema(Flowers):
+    """Класс для хризантем."""
     MAX_LIFE_DAYS = 14
 
     def __init__(
-            self,
-            price: float,
-            stem_length: float,
-            freshness_days: int,
-            month_of_maturation: str = "Сентябрь",
-            color: str = "белый"
+        self,
+        price: float,
+        stem_length: float,
+        freshness_days: int,
+        month_of_maturation: str = "Сентябрь",
+        color: str = "белый",
+        inflorescence_type: str = "помпонный"  # уникальный атрибут хризантемы
     ):
         super().__init__(
             "Хризантема",
@@ -103,9 +105,11 @@ class Hrizantema(Flowers):
             month_of_maturation,
             color
         )
+        self.inflorescence_type = inflorescence_type    # Тип соцветия
 
     def __str__(self) -> str:
-        return f"{super().__str__()}."
+        return f"{super().__str__()}, тип соцветия: {self.inflorescence_type}"
+
 
 
 # Экземпляры разных цветов
