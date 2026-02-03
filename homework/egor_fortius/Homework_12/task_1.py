@@ -58,15 +58,17 @@ class Roza(Flowers):
 
 
 class Tulpan(Flowers):
+    """Класс для тюльпанов."""
     MAX_LIFE_DAYS = 5
 
     def __init__(
-            self,
-            price: float,
-            stem_length: float,
-            freshness_days: int,
-            month_of_maturation: str = "Апрель",
-            color: str = "жёлтый"
+        self,
+        price: float,
+        stem_length: float,
+        freshness_days: int,
+        month_of_maturation: str = "Апрель",
+        color: str = "жёлтый",
+        bud_size: str = "средний"  # уникальный атрибут тюльпана
     ):
         super().__init__(
             "Тюльпан",
@@ -76,9 +78,10 @@ class Tulpan(Flowers):
             month_of_maturation,
             color
         )
+        self.bud_size = bud_size    # Размер бутона
 
     def __str__(self) -> str:
-        return f"{super().__str__()}"
+        return f"{super().__str__()}, размер бутона: {self.bud_size}"
 
 
 class Hrizantema(Flowers):
