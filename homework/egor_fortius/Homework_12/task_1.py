@@ -115,8 +115,11 @@ class Hrizantema(Flowers):
 
 # Экземпляры разных цветов
 rosa1 = Roza(price=150.0, stem_length=60, freshness_days=2, month_of_maturation='Июль', color="бордовый")
+rosa2 = Roza(price=140.0, stem_length=50, freshness_days=1, month_of_maturation='Июнь', color="красный")
 tulpan1 = Tulpan(price=80.0, stem_length=40, freshness_days=1, month_of_maturation='Март', color="оранжевый")
+tulpan2 = Tulpan(price=70.0, stem_length=35, freshness_days=2, month_of_maturation='апрель', color="желтый")
 hrizantema1 = Hrizantema(price=120.0, stem_length=50, freshness_days=2, month_of_maturation='Июнь', color="жёлтый")
+hrizantema2 = Hrizantema(price=100.0, stem_length=40, freshness_days=3, month_of_maturation='Май', color="белый")
 
 
 class Buket:
