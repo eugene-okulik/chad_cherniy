@@ -36,18 +36,21 @@ class Roza(Flowers):
             self,
             price: float,
             stem_length: float,
+            freshness_days: int,
             month_of_maturation: str = "Июнь",
             color: str = "красный",
-            has_thorns: bool = True,
-            variety: str = "чайно-гибридная"
     ):
-        super().__init__("Роза", price, stem_length, month_of_maturation, color)
-        self.has_thorns = has_thorns # шипы
-        self.variety = variety  # сорт розы
+        super().__init__(
+            "Роза",
+            price,
+            stem_length,
+            freshness_days,
+            month_of_maturation,
+            color
+        )
 
     def __str__(self) -> str:
-        thorns_info = "с шипами" if self.has_thorns else "без шипов"
-        return f"{super().__str__()}, {thorns_info}, сорт: {self.variety}"
+        return f"{super().__str__()}"
 
 
 class Tulpan(Flowers):
@@ -57,15 +60,21 @@ class Tulpan(Flowers):
             self,
             price: float,
             stem_length: float,
+            freshness_days: int,
             month_of_maturation: str = "Апрель",
             color: str = "жёлтый",
-            bud_size: str = "средний"  # маленький, средний, крупный
     ):
-        super().__init__("Тюльпан", price, stem_length, month_of_maturation, color)
-        self.bud_size = bud_size
+        super().__init__(
+            "Тюльпан",
+            price,
+            stem_length,
+            freshness_days,
+            month_of_maturation,
+            color
+        )
 
     def __str__(self) -> str:
-        return f"{super().__str__()}, бутон: {self.bud_size}"
+        return f"{super().__str__()}"
 
 
 class Hrizantema(Flowers):
@@ -75,22 +84,27 @@ class Hrizantema(Flowers):
             self,
             price: float,
             stem_length: float,
+            freshness_days: int,
             month_of_maturation: str = "Сентябрь",
-            color: str = "белый",
-            inflorescence_type: str = "помпонный"  # помпонный, анемоновидный, плоский
+            color: str = "белый"
     ):
-        super().__init__("Хризантема", price, stem_length, month_of_maturation, color)
-        self.inflorescence_type = inflorescence_type    # Тип соцветия
+        super().__init__(
+            "Хризантема",
+            price,
+            stem_length,
+            freshness_days,
+            month_of_maturation,
+            color
+        )
 
     def __str__(self) -> str:
-        return f"{super().__str__()}, тип соцветия: {self.inflorescence_type}."
+        return f"{super().__str__()}."
 
 
 # Экземпляры разных цветов
-rosa1 = Roza(price=150.0, stem_length=60, month_of_maturation='Июль', color="бордовый", variety="Пионовидная")
-tulpan1 = Tulpan(price=80.0, stem_length=40, month_of_maturation='Март', color="оранжевый", bud_size="крупный")
-hrizantema1 = Hrizantema(price=120.0, stem_length=50, month_of_maturation='Июнь', color="жёлтый",
-                         inflorescence_type="анемоновидный")
+rosa1 = Roza(price=150.0, stem_length=60, freshness_days=9, month_of_maturation='Июль', color="бордовый")
+tulpan1 = Tulpan(price=80.0, stem_length=40, freshness_days=8, month_of_maturation='Март', color="оранжевый")
+hrizantema1 = Hrizantema(price=120.0, stem_length=50, freshness_days=12, month_of_maturation='Июнь', color="жёлтый")
 
 
 class Buket:
