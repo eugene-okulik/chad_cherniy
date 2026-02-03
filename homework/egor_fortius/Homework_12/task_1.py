@@ -1,3 +1,5 @@
+from typing import List
+
 class Flowers:
 
     # Максимальный срок жизни после срезки (в днях) для базового класса
@@ -111,32 +113,14 @@ class Hrizantema(Flowers):
         return f"{super().__str__()}, тип соцветия: {self.inflorescence_type}"
 
 
-
 # Экземпляры разных цветов
-rosa1 = Roza(price=150.0, stem_length=60, freshness_days=9, month_of_maturation='Июль', color="бордовый")
-tulpan1 = Tulpan(price=80.0, stem_length=40, freshness_days=8, month_of_maturation='Март', color="оранжевый")
-hrizantema1 = Hrizantema(price=120.0, stem_length=50, freshness_days=12, month_of_maturation='Июнь', color="жёлтый")
+rosa1 = Roza(price=150.0, stem_length=60, freshness_days=2, month_of_maturation='Июль', color="бордовый")
+tulpan1 = Tulpan(price=80.0, stem_length=40, freshness_days=1, month_of_maturation='Март', color="оранжевый")
+hrizantema1 = Hrizantema(price=120.0, stem_length=50, freshness_days=2, month_of_maturation='Июнь', color="жёлтый")
 
 
 class Buket:
-    def __init__(
-            self,
-            name_of_bouquet: str,
-            price: float,
-            bouquet_height: float,  # высота букета в см
-            flowers_count: int,     # Количество цветов в букете
-            assembly_day: str,  # дата сборки (день месяца)
-            color: str = "разноцветный"
-    ):
+    def __init__(self, name: str = "Букет"):
+        self.name = name
+        self.flowers: List[Flowers] = []  # Список объектов цветов
 
-        self.name_of_bouquet = name_of_bouquet
-        self.price = price
-        self.bouquet_height = bouquet_height
-        self.flowers_count = flowers_count
-        self.assembly_day = assembly_day
-        self.color = color
-
-    def __str__(self) -> str:
-        return (f"{self.name_of_bouquet} ({self.color}), цена: {self.price}₽, "
-                f"количество цветов в букете: {self.flowers_count}см,"
-                f" день сборки: {self.assembly_day}.")
