@@ -1,9 +1,14 @@
 class Flowers:
+
+    # Максимальный срок жизни после срезки (в днях) для базового класса
+    MAX_LIFE_DAYS = 7
+
     def __init__(
             self,
             name: str,
             price: float,
             stem_length: float,  # длина стебля в см
+            freshness_days: int,  # дней с момента срезки
             month_of_maturation: str,  # месяц созревания
             color: str = "неизвестный"
     ):
@@ -11,8 +16,13 @@ class Flowers:
         self.name = name
         self.price = price
         self.stem_length = stem_length
+        self.freshness_days = freshness_days  # свежесть: сколько дней прошло с момента срезки
         self.month_of_maturation = month_of_maturation
         self.color = color
+
+    def remaining_life(self) -> int:
+        """Оставшийся срок жизни цветка в днях."""
+        return max(0, self.MAX_LIFE_DAYS - self.freshness_days)
 
     def __str__(self):
         return (f"{self.name} ({self.color}), цена: {self.price}₽, "
@@ -20,6 +30,8 @@ class Flowers:
 
 
 class Roza(Flowers):
+    MAX_LIFE_DAYS = 10
+
     def __init__(
             self,
             price: float,
@@ -39,6 +51,8 @@ class Roza(Flowers):
 
 
 class Tulpan(Flowers):
+    MAX_LIFE_DAYS = 5
+
     def __init__(
             self,
             price: float,
@@ -55,6 +69,8 @@ class Tulpan(Flowers):
 
 
 class Hrizantema(Flowers):
+    MAX_LIFE_DAYS = 14
+
     def __init__(
             self,
             price: float,
