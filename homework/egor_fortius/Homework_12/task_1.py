@@ -21,24 +21,27 @@ class Flowers:
         self.color = color
 
     def remaining_life(self) -> int:
-        """Оставшийся срок жизни цветка в днях."""
+        # Оставшийся срок жизни цветка в днях.
         return max(0, self.MAX_LIFE_DAYS - self.freshness_days)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (f"{self.name} ({self.color}), цена: {self.price}₽, "
-                f"стебель: {self.stem_length}см, месяц созревания: {self.month_of_maturation}.")
+                f"стебель: {self.stem_length}см, свежесть: {self.freshness_days}дн., "
+                f"осталось жизни: {self.remaining_life()}дн."
+                f", месяц созревания: {self.month_of_maturation}.")
 
 
 class Roza(Flowers):
     MAX_LIFE_DAYS = 10
 
     def __init__(
-            self,
-            price: float,
-            stem_length: float,
-            freshness_days: int,
-            month_of_maturation: str = "Июнь",
-            color: str = "красный",
+        self,
+        price: float,
+        stem_length: float,
+        freshness_days: int,
+        month_of_maturation: str = "Июнь",
+        color: str = "красный",
+        variety: str = "чайно-гибридная"  # уникальный атрибут розы
     ):
         super().__init__(
             "Роза",
@@ -48,9 +51,10 @@ class Roza(Flowers):
             month_of_maturation,
             color
         )
+        self.variety = variety  # сорт
 
     def __str__(self) -> str:
-        return f"{super().__str__()}"
+        return f"{super().__str__()}, сорт: {self.variety}"
 
 
 class Tulpan(Flowers):
@@ -62,7 +66,7 @@ class Tulpan(Flowers):
             stem_length: float,
             freshness_days: int,
             month_of_maturation: str = "Апрель",
-            color: str = "жёлтый",
+            color: str = "жёлтый"
     ):
         super().__init__(
             "Тюльпан",
