@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Flowers:
 
     # Максимальный срок жизни после срезки (в днях) для базового класса
