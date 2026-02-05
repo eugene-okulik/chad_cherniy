@@ -1,9 +1,9 @@
 def finish_me(func):
-    def wrapper(*args, **kwargs):
+    def text_fin(*args, **kwargs):
         result = func(*args, **kwargs)
         print('finished')
         return result
-    return wrapper
+    return text_fin
 
 
 @finish_me
