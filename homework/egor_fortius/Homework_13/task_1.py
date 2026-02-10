@@ -1,10 +1,19 @@
+import os
 from datetime import datetime, timedelta
+from pathlib import Path
 
-with open(
-        'D:/PyTest/Okulik/chad_cherniy/homework/eugene_okulik/hw_13/data.txt',
-        'r',
-        encoding='utf-8'
-) as data_file:
+# Определение пути относительно текущего скрипта
+file_path = (
+    Path(__file__)
+    .parent        # Переход в Homework_13
+    .parent        # Переход в egor_fortius
+    .parent        # Переход в homework
+    / 'eugene_okulik'
+    / 'hw_13'
+    / 'data.txt'
+)
+
+with open(file_path, 'r', encoding='utf-8') as data_file:
     now = datetime.now()
     for line in data_file.readlines():
         date = line[3:29]
