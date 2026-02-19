@@ -10,9 +10,14 @@ db = mysql.connect(
 )
 
 # Для БД создается переменная cursor, через которое происходит управление
-cursor = db.cursor()
-cursor.execute('SELECT * FROM students')    # Выполняем простой запрос
-result = cursor.fetchall()   # Возвращает то, что выполнил запрос, в формате списка
-print(result)
+cursor = db.cursor(dictionary=True)    # dictionary=True - получаем данные в виде словаря
+# cursor.execute('SELECT * FROM students ORDER BY id DESC LIMIT 10')   # Выполняем простой запрос
+# result = cursor.fetchall()   # Возвращает то, что выполнил запрос, в формате списка
+# for student in result:
+#     print(student['second_name'])
+
+cursor.execute('SELECT * FROM students WHERE id=22284')
+result2 = cursor.fetchone()    # Если мы знаем, что результат поиска - единственный
+print(result2)
 
 db.close()   # обязательно отключаться от БД
