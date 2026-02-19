@@ -1,11 +1,11 @@
-INSERT INTO students (name, second_name, group_id) VALUES ('Egor', 'Fortius', 1);
+INSERT INTO students (name, second_name) VALUES ('Egor', 'Fortius');
 
 INSERT INTO books (title, taken_by_student_id) VALUES ('War and Peace', 22284);
 INSERT INTO books (title, taken_by_student_id) VALUES ('Проветривание тухлых', 22284);
 
 INSERT INTO `groups` (title, start_date, end_date) VALUES ('Fortius group', 'Feb 2026', 'Apr 2026');
 
-UPDATE students Set group_id = 21982 WHERE name = 'Egor' and second_name = 'Fortius';
+UPDATE students Set group_id = 21982 WHERE id = 22284;
 
 INSERT INTO `subjects` (title) VALUES ('Fortituda'), ('Fortianada');
 
