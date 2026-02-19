@@ -1,0 +1,39 @@
+INSERT INTO students (name, second_name) VALUES ('Egor', 'Fortius');
+
+INSERT INTO books (title, taken_by_student_id) VALUES ('War and Peace', 22284);
+INSERT INTO books (title, taken_by_student_id) VALUES ('Проветривание тухлых', 22284);
+
+INSERT INTO `groups` (title, start_date, end_date) VALUES ('Fortius group', 'Feb 2026', 'Apr 2026');
+
+UPDATE students Set group_id = 21982 WHERE id = 22284;
+
+INSERT INTO `subjects` (title) VALUES ('Fortituda'), ('Fortianada');
+
+INSERT INTO lessons (title, subject_id)
+VALUES ('Predmet1', 13813), ('Predmet2', 13813);
+
+INSERT INTO lessons (title, subject_id)
+VALUES ('Predmet3', 13814), ('Predmet4', 13814);
+
+INSERT INTO marks (value, lesson_id, student_id)
+VALUES (10, 74769, 22284), (10, 74770, 22284), (10, 74771, 22284), (10, 74772, 22284);
+
+SELECT * FROM marks m WHERE m.student_id = 22284
+
+SELECT * FROM books b WHERE b.taken_by_student_id = 22284
+
+SELECT
+    s.name,
+    s.second_name,
+    g.title AS 'Группа',
+    b.title AS 'Книга',
+    m.value AS 'Оценка',
+    l.title AS 'Занятие',
+    sub.title AS 'Предмет'
+FROM students s
+LEFT JOIN `groups` g ON s.group_id = g.id
+LEFT JOIN books b ON b.taken_by_student_id = s.id
+LEFT JOIN marks m ON m.student_id = s.id
+LEFT JOIN lessons l ON m.lesson_id = l.id
+LEFT JOIN subjects sub ON l.subject_id = sub.id
+WHERE s.id = 22284;
