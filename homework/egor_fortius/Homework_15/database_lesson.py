@@ -13,7 +13,7 @@ db = mysql.connect(
 # Для БД создается переменная cursor, через которое происходит управление
 cursor = db.cursor(dictionary=True)    # dictionary=True - получаем данные в виде словаря
 cursor.execute('SELECT * FROM students ORDER BY id DESC LIMIT 10')   # Выполняем простой запрос
-result = cursor.fetchall()   # Возвращает все результаты запроса, в формате списка
+result = cursor.fetchall()   # Возвращает все результаты запроса, в формате СПИСКА
 for student in result:
     print(student['second_name'])
 
@@ -22,7 +22,10 @@ cursor.execute('SELECT * FROM students WHERE id=22284')
 result2 = cursor.fetchone()    # Если мы знаем, что результат поиска - единственный
 print(result2)
 
-"""Запрос на sql-инъекцию"""
-
+"""Запрос с переменными"""
+# query = "SELECT * FROM students WHERE name = %s and second_name = %s"
+# # Подстановка произойдет в места %s
+# cursor.execute(query, (input('name'), input('second_name')))
+# print(cursor.fetchall())
 
 db.close()   # обязательно отключаться от БД
