@@ -13,7 +13,7 @@ db = mysql.connect(
 # Для БД создается переменная cursor, через которое происходит управление
 cursor = db.cursor(dictionary=True)    # dictionary=True - получаем данные в виде словаря
 cursor.execute('SELECT * FROM students ORDER BY id DESC LIMIT 10')   # Выполняем простой запрос
-result = cursor.fetchall()   # Возвращает то, что выполнил запрос, в формате списка
+result = cursor.fetchall()   # Возвращает все результаты запроса, в формате списка
 for student in result:
     print(student['second_name'])
 
