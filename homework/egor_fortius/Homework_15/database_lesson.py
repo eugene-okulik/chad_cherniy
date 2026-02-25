@@ -28,4 +28,11 @@ print(result2)
 # cursor.execute(query, (input('name'), input('second_name')))
 # print(cursor.fetchall())
 
+"""Запрос на изменение данных"""
+# Если нужно внести изменение данных или создать новый, то следует делать db.commit()
+# Добавляем нового студента
+cursor.execute("INSERT INTO students (name, second_name) VALUES ('Egor2', 'Fortius2')")
+# сохраняем изменения и подтверждаем
+db.commit()
+
 db.close()   # обязательно отключаться от БД
