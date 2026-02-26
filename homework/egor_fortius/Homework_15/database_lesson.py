@@ -29,10 +29,15 @@ print(result2)
 # print(cursor.fetchall())
 
 """Запрос на изменение данных"""
-# Если нужно внести изменение данных или создать новый, то следует делать db.commit()
-# Добавляем нового студента
-cursor.execute("INSERT INTO students (name, second_name) VALUES ('Egor2', 'Fortius2')")
-# сохраняем изменения и подтверждаем
-db.commit()
+# # Если нужно внести изменение данных или создать новый, то следует делать db.commit()
+# # Добавляем нового студента
+# cursor.execute("INSERT INTO students (name, second_name) VALUES ('Egor2', 'Fortius2')")
+# # сохраняем изменения и подтверждаем
+# db.commit()
+
+"""Получаем id последнего созданного элемента"""
+student_id = cursor.lastrowid
+cursor.execute(f'SELECT * FROM students WHERE id={student_id}')
+print(student_id)
 
 db.close()   # обязательно отключаться от БД
