@@ -56,7 +56,7 @@ lesson4_id = lesson3_id + 1
 
 """Запрос 7 - Добавление оценок"""
 cursor.execute('''
-    INSERT INTO marks (value, lesson_id, student_id) 
+    INSERT INTO marks (value, lesson_id, student_id)
     VALUES (10, %s, %s), (10, %s, %s), (10, %s, %s), (10, %s, %s)
 ''', (lesson1_id, student_id, lesson2_id, student_id, lesson3_id, student_id, lesson4_id, student_id))
 db.commit()
