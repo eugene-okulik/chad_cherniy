@@ -15,7 +15,7 @@ cursor = db.cursor(dictionary=True)
 """Запрос 1 - Добавление студента"""
 cursor.execute('INSERT INTO students (name, second_name) VALUES ("Egor3", "Fortius3")')
 db.commit()
-student_id = cursor.lastrowid   # Получаем ID
+student_id = cursor.lastrowid  # Получаем ID
 print(f'Создан студент с ID: {student_id}')
 
 """Запрос 2 - Добавление книг"""
@@ -28,7 +28,7 @@ db.commit()
 """Запрос 3 - Добавление группы"""
 cursor.execute('INSERT INTO `groups` (title, start_date, end_date) VALUES ("Fortius2 group", "Feb 2026", "Apr 2026")')
 db.commit()
-group_id = cursor.lastrowid   # Получаем ID новой группы
+group_id = cursor.lastrowid  # Получаем ID новой группы
 print(f'Создана группа с ID: {group_id}')
 
 """Запрос 4 - Обновление группы студента"""
@@ -38,8 +38,8 @@ db.commit()
 """Запрос 5 - Добавление предметов"""
 cursor.execute('INSERT INTO `subjects` (title) VALUES ("Fortitutura"), ("Fortianiya")')
 db.commit()
-subject1_id = cursor.lastrowid   # Получаем ID первого предмета
-subject2_id = subject1_id + 1    # Второй предмет будет следующим по ID
+subject1_id = cursor.lastrowid  # Получаем ID первого предмета
+subject2_id = subject1_id + 1  # Второй предмет будет следующим по ID
 
 """Запрос 6 - Добавление занятий"""
 cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet1", %s), ("Predmet2", %s)',
