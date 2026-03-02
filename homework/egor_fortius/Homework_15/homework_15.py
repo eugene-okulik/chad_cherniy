@@ -19,8 +19,10 @@ student_id = cursor.lastrowid   # Получаем ID
 print(f'Создан студент с ID: {student_id}')
 
 """Запрос 2 - Добавление книг"""
-cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("War and Peace", %s)', (student_id,))
-cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("Шриланка про макс", %s)', (student_id,))
+cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("War and Peace", %s)',
+               (student_id,))
+cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("Шриланка про макс", %s)',
+               (student_id,))
 db.commit()
 
 """Запрос 3 - Добавление группы"""
@@ -40,12 +42,14 @@ subject1_id = cursor.lastrowid   # Получаем ID первого предм
 subject2_id = subject1_id + 1    # Второй предмет будет следующим по ID
 
 """Запрос 6 - Добавление занятий"""
-cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet1", %s), ("Predmet2", %s)', (subject1_id, subject1_id))
+cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet1", %s), ("Predmet2", %s)',
+               (subject1_id, subject1_id))
 db.commit()
 lesson1_id = cursor.lastrowid
 lesson2_id = lesson1_id + 1
 
-cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet3", %s), ("Predmet4", %s)', (subject2_id, subject2_id))
+cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet3", %s), ("Predmet4", %s)',
+               (subject2_id, subject2_id))
 db.commit()
 lesson3_id = cursor.lastrowid
 lesson4_id = lesson3_id + 1
