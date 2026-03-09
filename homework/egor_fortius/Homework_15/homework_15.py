@@ -13,22 +13,26 @@ db = mysql.connect(
 cursor = db.cursor(dictionary=True)
 
 """Запрос 1 - Добавление студента"""
-cursor.execute('INSERT INTO students (name, second_name) VALUES ("Egor3", "Fortius3")')
+cursor.execute('INSERT INTO students (name, second_name) VALUES ("Egor", "Fortius")')
 db.commit()
-student_id = cursor.lastrowid  # Получаем ID
+student_id = cursor.lastrowid
 print(f'Создан студент с ID: {student_id}')
 
-"""Запрос 2 - Добавление книг"""
-cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("War and Peace", %s)',
-               (student_id,))
-cursor.execute('INSERT INTO books (title, taken_by_student_id) VALUES ("Шриланка про макс", %s)',
-               (student_id,))
+"""Запрос 2 - Добавление книг (executemany)"""
+books_data = [
+    ('War and Peace', student_id),
+    ('Шриланка про макс', student_id)
+]
+cursor.executemany(
+    'INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)',
+    books_data
+)
 db.commit()
 
 """Запрос 3 - Добавление группы"""
-cursor.execute('INSERT INTO `groups` (title, start_date, end_date) VALUES ("Fortius2 group", "Feb 2026", "Apr 2026")')
+cursor.execute('INSERT INTO `groups` (title, start_date, end_date) VALUES ("Fortius_4 group", "Feb 2026", "Apr 2026")')
 db.commit()
-group_id = cursor.lastrowid  # Получаем ID новой группы
+group_id = cursor.lastrowid
 print(f'Создана группа с ID: {group_id}')
 
 """Запрос 4 - Обновление группы студента"""
@@ -36,29 +40,39 @@ cursor.execute('UPDATE students SET group_id = %s WHERE id = %s', (group_id, stu
 db.commit()
 
 """Запрос 5 - Добавление предметов"""
-cursor.execute('INSERT INTO `subjects` (title) VALUES ("Fortitutura"), ("Fortianiya")')
-db.commit()
-subject1_id = cursor.lastrowid  # Получаем ID первого предмета
-subject2_id = subject1_id + 1  # Второй предмет будет следующим по ID
+subjects_titles = ['Зельеварение', 'Антизельеварение']
+subject_ids = []
+for title in subjects_titles:
+    cursor.execute('INSERT INTO `subjects` (title) VALUES (%s)', (title,))
+    db.commit()
+    subject_ids.append(cursor.lastrowid)
+print(f'Созданы предметы с ID: {subject_ids}')
 
 """Запрос 6 - Добавление занятий"""
-cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet1", %s), ("Predmet2", %s)',
-               (subject1_id, subject1_id))
-db.commit()
-lesson1_id = cursor.lastrowid
-lesson2_id = lesson1_id + 1
+lessons_data = [
+    ('Predmet11', subject_ids[0]),
+    ('Predmet12', subject_ids[0]),
+    ('Predmet13', subject_ids[1]),
+    ('Predmet14', subject_ids[1])
+]
+lesson_ids = []
+for title, subject_id in lessons_data:
+    cursor.execute('INSERT INTO lessons (title, subject_id) VALUES (%s, %s)', (title, subject_id))
+    db.commit()
+    lesson_ids.append(cursor.lastrowid)
+print(f'Созданы занятия с ID: {lesson_ids}')
 
-cursor.execute('INSERT INTO lessons (title, subject_id) VALUES ("Predmet3", %s), ("Predmet4", %s)',
-               (subject2_id, subject2_id))
-db.commit()
-lesson3_id = cursor.lastrowid
-lesson4_id = lesson3_id + 1
-
-"""Запрос 7 - Добавление оценок"""
-cursor.execute('''
-    INSERT INTO marks (value, lesson_id, student_id)
-    VALUES (10, %s, %s), (10, %s, %s), (10, %s, %s), (10, %s, %s)
-''', (lesson1_id, student_id, lesson2_id, student_id, lesson3_id, student_id, lesson4_id, student_id))
+"""Запрос 7 - Добавление оценок (executemany)"""
+marks_data = [
+    (10, lesson_ids[0], student_id),
+    (10, lesson_ids[1], student_id),
+    (10, lesson_ids[2], student_id),
+    (10, lesson_ids[3], student_id)
+]
+cursor.executemany(
+    'INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)',
+    marks_data
+)
 db.commit()
 
 """Запрос 8 - Выборка всех оценок студента"""
@@ -75,15 +89,15 @@ print('\nКниги студента:')
 for book in result:
     print(book['title'])
 
-"""Запрос 10 - Полный отчёт по студенту"""
+"""Запрос 10 - Полный отчёт по студенту (JOIN)"""
 query = '''
-SELECT
-    s.name,
-    s.second_name,
-    g.title AS 'Группа',
-    b.title AS 'Книга',
-    m.value AS 'Оценка',
-    l.title AS 'Занятие',
+SELECT 
+    s.name, 
+    s.second_name, 
+    g.title AS 'Группа', 
+    b.title AS 'Книга', 
+    m.value AS 'Оценка', 
+    l.title AS 'Занятие', 
     sub.title AS 'Предмет'
 FROM students s
 LEFT JOIN `groups` g ON s.group_id = g.id
