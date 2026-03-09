@@ -91,13 +91,13 @@ for book in result:
 
 """Запрос 10 - Полный отчёт по студенту (JOIN)"""
 query = '''
-SELECT 
-    s.name, 
-    s.second_name, 
-    g.title AS 'Группа', 
-    b.title AS 'Книга', 
-    m.value AS 'Оценка', 
-    l.title AS 'Занятие', 
+SELECT
+    s.name,
+    s.second_name,
+    g.title AS 'Группа',
+    b.title AS 'Книга',
+    m.value AS 'Оценка',
+    l.title AS 'Занятие',
     sub.title AS 'Предмет'
 FROM students s
 LEFT JOIN `groups` g ON s.group_id = g.id
