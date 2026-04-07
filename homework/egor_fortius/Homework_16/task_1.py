@@ -10,7 +10,7 @@ db = mysql.connect(
     passwd=os.getenv("DB_PASSW"),
     host=os.getenv("DB_HOST"),
     port=os.getenv("DB_PORT"),
-    database=os.getenv("DB_DATABASE")
+    database=os.getenv("DB_NAME")
 )
 
 cursor = db.cursor(dictionary=True)
