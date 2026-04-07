@@ -13,10 +13,6 @@ db = mysql.connect(
     database=os.getenv("DB_DATABASE")
 )
 
-# 🔍 Отладка: проверьте, что переменные загрузились
-print(f"DB_PORT: {os.getenv('DB_PORT')}")  # Должно быть: 3306
-print(f"DB_USER: {os.getenv('DB_USER')}")
-
 cursor = db.cursor(dictionary=True)
 
 """Запрос 1 - Добавление студента"""
