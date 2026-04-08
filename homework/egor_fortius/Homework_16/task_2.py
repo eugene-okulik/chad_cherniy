@@ -16,7 +16,8 @@ db = mysql.connect(
     database=os.getenv("DB_NAME")
 )
 
-cursor = db.cursor(dictionary=True)
+cursor = db.cursor(dictionary=True, buffered=True) # Драйвер загружает 
+# все результаты запроса в память сразу, позволяет выполнять новые запросы тем же курсором.
 
 # Путь к файлу
 csv_path = (
@@ -31,4 +32,109 @@ csv_path = (
 )
 
 with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
-    csv_data = csv.DictReader(csv_file)
+    csv_reader = csv.DictReader(csv_file)
+    csv_data = list(csv_reader)
+
+print(f"Записей в файле: {len(csv_data)}")
+print("=" * 80)
+
+# Проверка каждой записи из CSV
+for i, row in enumerate(csv_data, 1):
+    print(f"\nЗапись #{i} из CSV:")
+    print(f"   Студент: {row['name']} {row['second_name']}")
+    print(f"   Группа: {row['group_title']}")
+    print(f"   Книга: {row['book_title']}")
+    print(f"   Предмет: {row['subject_title']}")
+    print(f"   Занятие: {row['lesson_title']}")
+    print(f"   Оценка: {row['mark_value']}")
+    
+    # 1. Проверяем студента
+    cursor.execute(
+        '''
+        SELECT s.id, s.name, s.second_name 
+        FROM students s
+        WHERE s.name = %s AND s.second_name = %s
+        ''',
+        (row['name'], row['second_name'])
+    )
+    student = cursor.fetchone()
+    
+    # 2. Проверяем группу
+    cursor.execute(
+        'SELECT id, title FROM `groups` WHERE title = %s',
+        (row['group_title'],)
+    )
+    group = cursor.fetchone()
+    
+    # 3. Проверяем книгу
+    cursor.execute(
+        'SELECT id, title FROM books WHERE title = %s',
+        (row['book_title'],)
+    )
+    book = cursor.fetchone()
+    
+    # 4. Проверяем предмет
+    cursor.execute(
+        'SELECT id, title FROM subjects WHERE title = %s',
+        (row['subject_title'],)
+    )
+    subject = cursor.fetchone()
+    
+    # 5. Проверяем занятие
+    cursor.execute(
+        '''
+        SELECT l.id, l.title 
+        FROM lessons l
+        JOIN subjects s ON l.subject_id = s.id
+        WHERE l.title = %s AND s.title = %s
+        ''',
+        (row['lesson_title'], row['subject_title'])
+    )
+    lesson = cursor.fetchone()
+    
+    # 6. Проверяем оценку
+    if student and lesson:
+        # Преобразуем оценку к числовому виду если нужно
+        mark_value = row['mark_value']
+        if mark_value == 'OTL':
+            mark_value = 5
+        elif mark_value == 'ХОР':
+            mark_value = 4
+        elif mark_value == 'УД':
+            mark_value = 3
+        elif mark_value == 'НЕУД':
+            mark_value = 2
+        
+        cursor.execute(
+            '''
+            SELECT m.id, m.value
+            FROM marks m
+            WHERE m.student_id = %s 
+            AND m.lesson_id = %s
+            AND m.value = %s
+            ''',
+            (student['id'], lesson['id'], int(mark_value))
+        )
+        mark = cursor.fetchone()
+    else:
+        mark = None
+    
+    # Вывод результатов проверки
+    print("\n   🔍 Результаты проверки:")
+    print(f"   Студент: {'✅ найден' if student else '❌ не найден'}")
+    print(f"   Группа: {'✅ найдена' if group else '❌ не найдена'}")
+    print(f"   Книга: {'✅ найдена' if book else '❌ не найдена'}")
+    print(f"   Предмет: {'✅ найден' if subject else '❌ не найден'}")
+    print(f"   Занятие: {'✅ найдено' if lesson else '❌ не найдено'}")
+    print(f"   Оценка: {'✅ найдена' if mark else '❌ не найдена'}")
+    
+    # Итог по записи
+    all_found = all([student, group, book, subject, lesson, mark])
+    if all_found:
+        print(f"\n   🎉 Запись #{i} ПОЛНОСТЬЮ найдена в БД!")
+    else:
+        print(f"\n   ⚠️  Запись #{i} найдена НЕ ПОЛНОСТЬЮ или отсутствует")
+    
+    print("-" * 80)
+
+db.close()
