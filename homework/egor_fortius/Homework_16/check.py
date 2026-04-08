@@ -82,7 +82,7 @@ for i, row in enumerate(csv_data, 1):
         # Проверяем оценку в БД
         cursor.execute(
             '''
-            SELECT id, value FROM marks 
+            SELECT id, value FROM marks
             WHERE student_id = %s AND lesson_id = %s
             ''',
             (student['id'], lesson['id'])

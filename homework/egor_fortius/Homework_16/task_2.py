@@ -47,35 +47,35 @@ for i, row in enumerate(csv_data, 1):
     print(f"   Предмет: {row['subject_title']}")
     print(f"   Занятие: {row['lesson_title']}")
     print(f"   Оценка: {row['mark_value']}")
-    
+   
     # 1. Проверяем студента
     cursor.execute(
         'SELECT id, name, second_name FROM students WHERE name = %s AND second_name = %s',
         (row['name'], row['second_name'])
     )
     student = cursor.fetchone()
-    
+
     # 2. Проверяем группу
     cursor.execute(
         'SELECT id FROM `groups` WHERE title = %s',
         (row['group_title'],)
     )
     group = cursor.fetchone()
-    
+
     # 3. Проверяем книгу
     cursor.execute(
         'SELECT id FROM books WHERE title = %s',
         (row['book_title'],)
     )
     book = cursor.fetchone()
-    
+
     # 4. Проверяем предмет
     cursor.execute(
         'SELECT id FROM subjects WHERE title = %s',
         (row['subject_title'],)
     )
     subject = cursor.fetchone()
-    
+
     # 5. Проверяем занятие
     cursor.execute(
         '''
@@ -86,12 +86,12 @@ for i, row in enumerate(csv_data, 1):
         (row['lesson_title'], row['subject_title'])
     )
     lesson = cursor.fetchone()
-    
-     # 6. Оценка 
+
+    # 6. Оценка
     mark = None
     if student and lesson:
         mark_value = row['mark_value']
-        
+
         cursor.execute(
             '''
             SELECT m.id, m.value
@@ -102,7 +102,7 @@ for i, row in enumerate(csv_data, 1):
         )
         mark = cursor.fetchone()
         print(mark)
-    
+
     # Вывод результатов проверки
     print("\n   🔍 Результаты проверки:")
     print(f"   Студент: {'✅ найден' if student else '❌ не найден'}")
@@ -111,14 +111,14 @@ for i, row in enumerate(csv_data, 1):
     print(f"   Предмет: {'✅ найден' if subject else '❌ не найден'}")
     print(f"   Занятие: {'✅ найдено' if lesson else '❌ не найдено'}")
     print(f"   Оценка: {'✅ найдена' if mark else '❌ не найдена'}")
-    
+
     # Итог по записи
     all_found = all([student, group, book, subject, lesson, mark])
     if all_found:
         print(f"\n   🎉 Запись #{i} ПОЛНОСТЬЮ найдена в БД!")
     else:
         print(f"\n   ⚠️  Запись #{i} найдена НЕ ПОЛНОСТЬЮ или отсутствует")
-    
+
     print("-" * 80)
 
 # Общая статистика
