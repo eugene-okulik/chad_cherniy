@@ -4,38 +4,38 @@ import os
 import dotenv
 from pathlib import Path
 
-# Загружаем переменные окружениия
-dotenv.load_dotenv() 
+# Загружаем переменные окружения
+dotenv.load_dotenv()
 
 # Подключаемся к БД
 db = mysql.connect(
     user=os.getenv("DB_USER"),
     passwd=os.getenv("DB_PASSW"),
     host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT"),
+    port=int(os.getenv("DB_PORT")),
     database=os.getenv("DB_NAME")
 )
 
-cursor = db.cursor(dictionary=True, buffered=True) # Драйвер загружает 
-# все результаты запроса в память сразу, позволяет выполнять новые запросы тем же курсором.
+cursor = db.cursor(dictionary=True, buffered=True)
 
-# Путь к файлу
+# Путь к файлу CSV
 csv_path = (
     Path(__file__)
-    .parent        # Переход в Homework_16
-    .parent        # Переход в egor_fortius
-    .parent        # Переход в homework
+    .parent        # Homework_16
+    .parent        # egor_fortius
+    .parent        # homework
     / 'eugene_okulik'
     / 'Lesson_16'
     / 'hw_data'
     / 'data.csv'
 )
 
+# Чтение CSV
 with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     csv_data = list(csv_reader)
 
-print(f"Записей в файле: {len(csv_data)}")
+print(f"📄 Записей в файле: {len(csv_data)}")
 print("=" * 80)
 
 # Проверка каждой записи из CSV
@@ -50,32 +50,28 @@ for i, row in enumerate(csv_data, 1):
     
     # 1. Проверяем студента
     cursor.execute(
-        '''
-        SELECT s.id, s.name, s.second_name 
-        FROM students s
-        WHERE s.name = %s AND s.second_name = %s
-        ''',
+        'SELECT id, name, second_name FROM students WHERE name = %s AND second_name = %s',
         (row['name'], row['second_name'])
     )
     student = cursor.fetchone()
     
     # 2. Проверяем группу
     cursor.execute(
-        'SELECT id, title FROM `groups` WHERE title = %s',
+        'SELECT id FROM `groups` WHERE title = %s',
         (row['group_title'],)
     )
     group = cursor.fetchone()
     
     # 3. Проверяем книгу
     cursor.execute(
-        'SELECT id, title FROM books WHERE title = %s',
+        'SELECT id FROM books WHERE title = %s',
         (row['book_title'],)
     )
     book = cursor.fetchone()
     
     # 4. Проверяем предмет
     cursor.execute(
-        'SELECT id, title FROM subjects WHERE title = %s',
+        'SELECT id FROM subjects WHERE title = %s',
         (row['subject_title'],)
     )
     subject = cursor.fetchone()
@@ -83,8 +79,7 @@ for i, row in enumerate(csv_data, 1):
     # 5. Проверяем занятие
     cursor.execute(
         '''
-        SELECT l.id, l.title 
-        FROM lessons l
+        SELECT l.id FROM lessons l
         JOIN subjects s ON l.subject_id = s.id
         WHERE l.title = %s AND s.title = %s
         ''',
@@ -92,32 +87,21 @@ for i, row in enumerate(csv_data, 1):
     )
     lesson = cursor.fetchone()
     
-    # 6. Проверяем оценку
+     # 6. Оценка 
+    mark = None
     if student and lesson:
-        # Преобразуем оценку к числовому виду если нужно
         mark_value = row['mark_value']
-        if mark_value == 'OTL':
-            mark_value = 5
-        elif mark_value == 'ХОР':
-            mark_value = 4
-        elif mark_value == 'УД':
-            mark_value = 3
-        elif mark_value == 'НЕУД':
-            mark_value = 2
         
         cursor.execute(
             '''
             SELECT m.id, m.value
             FROM marks m
-            WHERE m.student_id = %s 
-            AND m.lesson_id = %s
-            AND m.value = %s
+            WHERE m.student_id = %s AND m.lesson_id = %s AND m.value = %s
             ''',
-            (student['id'], lesson['id'], int(mark_value))
+            (student['id'], lesson['id'], mark_value)
         )
         mark = cursor.fetchone()
-    else:
-        mark = None
+        print(mark)
     
     # Вывод результатов проверки
     print("\n   🔍 Результаты проверки:")
@@ -136,5 +120,8 @@ for i, row in enumerate(csv_data, 1):
         print(f"\n   ⚠️  Запись #{i} найдена НЕ ПОЛНОСТЬЮ или отсутствует")
     
     print("-" * 80)
+
+# Общая статистика
+print(f"\n📊 ВСЕГО ЗАПИСЕЙ: {len(csv_data)}")
 
 db.close()
