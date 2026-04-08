@@ -37,7 +37,8 @@ db.commit()
 
 """Запрос 3 - Добавление группы"""
 cursor.execute(
-    'INSERT INTO `groups` (title, start_date, end_date) VALUES (%s, %s, %s)',
+    'INSERT INTO `groups` (title, start_date, end_date) ' \
+    'VALUES (%s, %s, %s)',
     ('Fortius_4 group', 'Feb 2026', 'Apr 2026')
 )
 db.commit()
@@ -45,7 +46,8 @@ group_id = cursor.lastrowid
 print(f'Создана группа с ID: {group_id}')
 
 """Запрос 4 - Обновление группы студента"""
-cursor.execute('UPDATE students SET group_id = %s WHERE id = %s', (group_id, student_id))
+cursor.execute('UPDATE students SET group_id = %s ' \
+'WHERE id = %s', (group_id, student_id))
 db.commit()
 
 """Запрос 5 - Добавление предметов"""
@@ -66,7 +68,8 @@ lessons_data = [
 ]
 lesson_ids = []
 for title, subject_id in lessons_data:
-    cursor.execute('INSERT INTO lessons (title, subject_id) VALUES (%s, %s)', (title, subject_id))
+    cursor.execute('INSERT INTO lessons (title, subject_id) ' \
+    'VALUES (%s, %s)', (title, subject_id))
     db.commit()
     lesson_ids.append(cursor.lastrowid)
 print(f'Созданы занятия с ID: {lesson_ids}')
