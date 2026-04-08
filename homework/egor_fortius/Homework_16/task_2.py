@@ -47,7 +47,7 @@ for i, row in enumerate(csv_data, 1):
     print(f"   Предмет: {row['subject_title']}")
     print(f"   Занятие: {row['lesson_title']}")
     print(f"   Оценка: {row['mark_value']}")
-   
+
     # 1. Проверяем студента
     cursor.execute(
         'SELECT id, name, second_name FROM students WHERE name = %s AND second_name = %s',
