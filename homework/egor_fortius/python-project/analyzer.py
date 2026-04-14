@@ -46,11 +46,10 @@ for log in list_logs:
                         except ValueError:
                             continue
                         # Контекст: 5 слов до и после
-                        context = " ".join(words[max(0, idx-5):idx+6])
+                        context = " ".join(words[max(0, idx - 5):idx + 6])
                         # Имя файла
                         filename = file_path if args.full else log
                         # Вывод
                         print(f"{filename} | {date_error} | {time_error} | {context}")
         except Exception as e:
             print(f"Error reading {file_path}: {e}")
-            
