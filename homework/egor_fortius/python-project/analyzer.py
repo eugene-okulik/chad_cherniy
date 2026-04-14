@@ -53,12 +53,12 @@ for log in list_logs:
                         # Контекст: 5 слов до и после
                         context = " ".join(words[max(0, idx - 5):idx + 6])
                         highlighted_context = context.replace(
-                            args.text, 
+                            args.text,
                             f"{Fore.RED}{Style.BRIGHT}{args.text}{Style.RESET_ALL}"
                         )
-                        
+
                         filename = file_path if args.full else log
-                        
+
                         # 🔹 Вывод с разными цветами для удобства чтения
                         print(f"{Fore.CYAN}{filename}{Fore.RESET} | "
                               f"{Fore.YELLOW}{date_error}{Fore.RESET} | "
