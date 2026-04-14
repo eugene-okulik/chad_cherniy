@@ -6,7 +6,7 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument("folder", help="Path to folder")
 parser.add_argument("-t", "--text", required=True, help="Text for search in file")
-parser.add_argument("-d", "--date", help="date for search")
+parser.add_argument("-d", "--date", help="date for search (ex: YYYY-MM-DD)")
 parser.add_argument("--time", help="Time for search (ex: hr:min)")
 parser.add_argument("--full", help="full name.log", action="store_true")
 args = parser.parse_args()
