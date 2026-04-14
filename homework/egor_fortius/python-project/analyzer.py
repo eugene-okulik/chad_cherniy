@@ -1,6 +1,11 @@
 import argparse
 import os
+import colorama
+from colorama import Fore, Style
 
+
+# Инициализация: autoreset=True автоматически сбрасывает цвет после каждого print()
+colorama.init(autoreset=True)
 
 # В программе обязательным аргументом будет путь к папке, в которой будет происходить поиск
 parser = argparse.ArgumentParser()
@@ -47,9 +52,17 @@ for log in list_logs:
                             continue
                         # Контекст: 5 слов до и после
                         context = " ".join(words[max(0, idx - 5):idx + 6])
-                        # Имя файла
+                        highlighted_context = context.replace(
+                            args.text, 
+                            f"{Fore.RED}{Style.BRIGHT}{args.text}{Style.RESET_ALL}"
+                        )
+                        
                         filename = file_path if args.full else log
-                        # Вывод
-                        print(f"{filename} | {date_error} | {time_error} | {context}")
+                        
+                        # 🔹 Вывод с разными цветами для удобства чтения
+                        print(f"{Fore.CYAN}{filename}{Fore.RESET} | "
+                              f"{Fore.YELLOW}{date_error}{Fore.RESET} | "
+                              f"{Fore.GREEN}{time_error}{Fore.RESET} | "
+                              f"{highlighted_context}")
         except Exception as e:
             print(f"Error reading {file_path}: {e}")
