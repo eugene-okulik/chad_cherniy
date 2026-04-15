@@ -26,11 +26,11 @@ results = {
 
 with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
     reader = csv.DictReader(csv_file)
-    
+
     for row in reader:
         # Проверяем полную запись через JOIN
         query = '''
-        SELECT 
+        SELECT
             s.name,
             s.second_name,
             g.title as group_title,
@@ -44,14 +44,14 @@ with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
         LEFT JOIN marks m ON m.student_id = s.id
         LEFT JOIN lessons l ON m.lesson_id = l.id
         LEFT JOIN subjects sub ON l.subject_id = sub.id
-        WHERE s.name = %s 
+        WHERE s.name = %s
         AND s.second_name = %s
         AND g.title = %s
         AND b.title = %s
         AND sub.title = %s
         AND l.title = %s
         '''
-        
+
         # Преобразуем оценку
         mark_val = row['mark_value']
         if mark_val == 'OTL':
@@ -62,7 +62,7 @@ with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
             mark_val = 3
         elif mark_val == 'НЕУД':
             mark_val = 2
-        
+
         cursor.execute(query, (
             row['name'],
             row['second_name'],
@@ -71,7 +71,7 @@ with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
             row['subject_title'],
             row['lesson_title']
         ))
-        
+
         db_record = cursor.fetchone()
         
         if db_record:
@@ -80,7 +80,7 @@ with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
         else:
             results['not_found'] += 1
             status = "❌ НЕ НАЙДЕНА"
-        
+
         results['details'].append({
             'student': f"{row['name']} {row['second_name']}",
             'status': status
