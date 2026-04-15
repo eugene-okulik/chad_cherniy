@@ -73,7 +73,7 @@ with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
         ))
 
         db_record = cursor.fetchone()
-        
+
         if db_record:
             results['found'] += 1
             status = "✅ НАЙДЕНА"
