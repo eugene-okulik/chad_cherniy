@@ -1,7 +1,9 @@
 import requests
 from icecream import ic
 
+
 MAIN_URL = 'http://objapi.course.qa-practice.com/'
+
 
 def all_objects():
     response = requests.get(f"{MAIN_URL}/object", timeout=10)
@@ -9,12 +11,13 @@ def all_objects():
     data = response.json()
     ic(data)
 
+
 # POST /object - создание объекта
 def create_object():
     body = {
         "name": "Genrih",
         "data": {"second_name": "VIII", "age": 32}
-        }
+    }
     response = requests.post(
         f"{MAIN_URL}/object", timeout=10,
         json=body,
@@ -24,12 +27,13 @@ def create_object():
     ic(result)
     return result
 
+
 # PUT /object/<id> — полное обновление
 def put_obj(obj_id):
     body = {
         "name": "Genrih XII",
         "data": {"second_name": "Perdu", "age": 32}
-        }
+    }
     response = requests.put(
         f"{MAIN_URL}/object/{obj_id}",
         json=body,
@@ -38,6 +42,7 @@ def put_obj(obj_id):
     data = response.json()
     assert data["id"] == obj_id
     ic(data)
+
 
 # PATCH /object/<id> — частичное обновление
 def update_object_patch(obj_id):
@@ -48,12 +53,14 @@ def update_object_patch(obj_id):
     ic(result)
     return result
 
+
 # DELETE /object/<id> — удаление
 def delete_object(obj_id):
     response = requests.delete(f"{MAIN_URL}/object/{obj_id}")
     assert response.status_code == 204
     ic(f"✅ Объект {obj_id} удалён (204)")
     return True
+
 
 # ЗАПУСК СЦЕНАРИЯ
 if __name__ == "__main__":
