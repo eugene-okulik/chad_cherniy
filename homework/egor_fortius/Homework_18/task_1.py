@@ -71,7 +71,7 @@ if __name__ == "__main__":
     obj_id = new_obj["id"]
     ic(f"Создан объект с ID: {obj_id}")
 
-    # 2. 
+    # 2.
     put_obj(obj_id)
     update_object_patch(obj_id)
     delete_object(obj_id)
