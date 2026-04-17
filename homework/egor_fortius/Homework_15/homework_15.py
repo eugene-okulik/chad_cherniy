@@ -1,12 +1,13 @@
 import mysql.connector as mysql
+import os
 
 # подключение к БД
 db = mysql.connect(
-    user='st-onl',
-    passwd='AVNS_tegPDkI5BlB2lW5eASC',
-    host='db-mysql-fra1-09136-do-user-7651996-0.b.db.ondigitalocean.com',
-    port=25060,
-    database='st-onl'
+    user=os.getenv("DB_USER"),
+    passwd=os.getenv("DB_PASSW"),
+    host=os.getenv("DB_HOST"),
+    port=os.getenv("DB_PORT"),
+    database=os.getenv("DB_NAME")
 )
 
 # Для БД создается переменная cursor, через которое происходит управление
