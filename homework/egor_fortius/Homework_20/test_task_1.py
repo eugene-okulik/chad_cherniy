@@ -63,7 +63,6 @@ def test_create_object(start_end_text, people):
     assert response.status_code == 200, 'Created'
     result = response.json()
     ic(result)
-    return result
 
 # PUT /object/<id> — полное обновление
 def test_put_object(start_end_text, created_object):
