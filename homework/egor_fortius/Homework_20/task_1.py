@@ -79,7 +79,7 @@ if __name__ == "__main__":
     delete_object(obj_id)
 
     # 3. Проверяем, что объект действительно удалён
-    response = requests.get(f"{MAIN_URL}/object/{obj_id}", timeout=10)
+    response = requests.get(f"{base_url}/object/{obj_id}", timeout=10)
     assert response.status_code == 404, "Объект должен быть удалён"
 
     ic("Все тесты прошли успешно!")
