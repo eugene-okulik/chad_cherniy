@@ -11,15 +11,15 @@ base_url = os.getenv("MAIN_URL")
 
 @pytest.fixture()
 def start_end_text():
-    ic('before test')
+    ic('\nbefore test')
     yield
-    ic('after test')
+    ic('\nafter test')
 
 @pytest.fixture(scope="session")
 def info():
-    ic("Start testing")
+    ic("\nStart testing")
     yield
-    ic("Testing completed")
+    ic("\nTesting completed")
 
 def test_all_objects(start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
@@ -27,18 +27,25 @@ def test_all_objects(start_end_text):
     # data = response.json()
     # ic(data)
 
-
+@pytest.mark.critical
+@pytest.mark.parametrize(
+    'people', [
+        {"name": "Vin", "data": {"second_name": "Diezel", "age": 31}},
+        {"name": "Vin2", "data": {"second_name": "Diezel2", "age": 32}},
+        {"name": "Vin3", "data": {"second_name": "Diezel3", "age": 33}}
+        ]
+    )
 # POST /object - создание объекта
-def test_create_object(start_end_text, info):
+def test_create_object(start_end_text, info, people):
     body = {
-        "name": "Shaman King",
-        "data": {"second_name": "Yo Asakura", "age": 18}
+        "name": people["name"],
+        "data": people["data"]
     }
     response = requests.post(
         f"{base_url}/object", timeout=20,
         json=body,
     )
-    assert response.status_code == 200, 'Not Success'
+    assert response.status_code == 201, 'Created'
     result = response.json()
     ic(result)
     return result
