@@ -11,15 +11,15 @@ base_url = os.getenv("MAIN_URL")
 
 @pytest.fixture(scope="function")
 def start_end_text():
-    ic('\nbefore test')
+    ic('before test')
     yield
-    ic('\nafter test')
+    ic('after test')
 
 @pytest.fixture(scope="session")
 def info():
-    ic("\nStart testing")
+    ic("Start testing")
     yield
-    ic("\nTesting completed")
+    ic("Testing completed")
 
 @pytest.fixture(scope="function")
 def created_object():
@@ -36,7 +36,7 @@ def created_object():
     
     yield obj 
 
-def test_all_objects(start_end_text):
+def test_all_objects(info, start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
     # data = response.json()
@@ -51,7 +51,7 @@ def test_all_objects(start_end_text):
         {"name": "Vin3", "data": {"second_name": "Diezel3", "age": 33}}
         ]
     )
-def test_create_object(start_end_text, info, people):
+def test_create_object(start_end_text, people):
     body = {
         "name": people["name"],
         "data": people["data"]
