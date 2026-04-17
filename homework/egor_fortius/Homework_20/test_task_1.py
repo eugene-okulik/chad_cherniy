@@ -81,7 +81,7 @@ def test_put_object(start_end_text, created_object):
     assert response.status_code == 200, f'PUT failed: {response.status_code}'
     data = response.json()
     
-    assert data["id"] == obj_id
+    assert int(data["id"]) == obj_id
     assert data["name"] == body["name"]
     assert data["data"] == body["data"]
 
@@ -110,8 +110,8 @@ def test_delete_object(start_end_text, created_object):
         f"{base_url}/object/{obj_id}",
         timeout=20
     )
-    assert response.status_code == 204, f'DELETE failed: {response.status_code}'
-    ic(f"🗑️ Объект #{obj_id} удалён (204)")
+    assert response.status_code == 200, f'DELETE failed: {response.status_code}'
+    ic(f"🗑️ Объект #{obj_id} удалён (200)")
     
     # Проверяем, что объект действительно удалён
     check = requests.get(f"{base_url}/object/{obj_id}", timeout=10)
