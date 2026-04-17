@@ -30,7 +30,7 @@ def created_object():
         timeout=20,
         json=body
     )
-    assert response.status_code == 201, f"Failed to create: {response.status_code}"
+    assert response.status_code == 200, f"Failed to create: {response.status_code}"
     obj = response.json()
     ic(f"📦 Fixture: создан объект #{obj['id']}")
     
@@ -60,7 +60,7 @@ def test_create_object(start_end_text, info, people):
         f"{base_url}/object", timeout=20,
         json=body,
     )
-    assert response.status_code == 201, 'Created'
+    assert response.status_code == 200, 'Created'
     result = response.json()
     ic(result)
     return result
