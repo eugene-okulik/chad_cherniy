@@ -37,7 +37,7 @@ def created_object():
     obj = response.json()
     ic(f"📦 Fixture: создан объект #{obj['id']}")
 
-    yield obj 
+    yield obj
 
 
 def test_all_objects(info, start_end_text):
@@ -73,7 +73,7 @@ def test_create_object(start_end_text, people):
 # PUT /object/<id> — полное обновление
 def test_put_object(start_end_text, created_object):
     obj_id = created_object["id"]
-    
+
     body = {
         "name": "Shaman The Great",
         "data": {"second_name": "Really", "age": 19}
@@ -85,7 +85,7 @@ def test_put_object(start_end_text, created_object):
     )
     assert response.status_code == 200, f'PUT failed: {response.status_code}'
     data = response.json()
-    
+
     assert int(data["id"]) == obj_id
     assert data["name"] == body["name"]
     assert data["data"] == body["data"]
@@ -94,7 +94,7 @@ def test_put_object(start_end_text, created_object):
 # PATCH /object/<id> — частичное обновление
 def test_patch_object(start_end_text, created_object):
     obj_id = created_object["id"]
-    
+
     body = {"name": "Gondurasina"}
     response = requests.patch(
         f"{base_url}/object/{obj_id}",
@@ -103,23 +103,23 @@ def test_patch_object(start_end_text, created_object):
     )
     assert response.status_code == 200, f'PATCH failed: {response.status_code}'
     result = response.json()
-    
+
     assert result["name"] == "Gondurasina"
-    
+
     ic(f"✏️ PATCH обновлён объект #{obj_id}: {result['name']}")
 
 
 # DELETE /object/<id> — удаление
 def test_delete_object(start_end_text, created_object):
     obj_id = created_object["id"]
-    
+
     response = requests.delete(
         f"{base_url}/object/{obj_id}",
         timeout=20
     )
     assert response.status_code == 200, f'DELETE failed: {response.status_code}'
     ic(f"🗑️ Объект #{obj_id} удалён (200)")
-    
+
     # Проверяем, что объект действительно удалён
     check = requests.get(f"{base_url}/object/{obj_id}", timeout=10)
     assert check.status_code == 404, "Объект должен быть удалён"
