@@ -7,7 +7,7 @@ load_dotenv()
 
 base_url = os.getenv("MAIN_URL")
 
-def all_objects():
+def test_all_objects():
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
     data = response.json()
@@ -15,7 +15,7 @@ def all_objects():
 
 
 # POST /object - создание объекта
-def create_object():
+def test_create_object():
     body = {
         "name": "Genrih",
         "data": {"second_name": "VIII", "age": 32}
@@ -31,7 +31,7 @@ def create_object():
 
 
 # PUT /object/<id> — полное обновление
-def put_obj(obj_id):
+def test_put_obj(obj_id):
     body = {
         "name": "Genrih XII",
         "data": {"second_name": "Perdu", "age": 32}
@@ -47,7 +47,7 @@ def put_obj(obj_id):
 
 
 # PATCH /object/<id> — частичное обновление
-def update_object_patch(obj_id):
+def test_update_object_patch(obj_id):
     body = {"name": "Gondurasina"}
     response = requests.patch(f"{base_url}/object/{obj_id}", json=body, timeout=20)
     assert response.status_code == 200
@@ -57,7 +57,7 @@ def update_object_patch(obj_id):
 
 
 # DELETE /object/<id> — удаление
-def delete_object(obj_id):
+def test_delete_object(obj_id):
     response = requests.delete(f"{base_url}/object/{obj_id}")
     assert response.status_code == 204
     ic(f"✅ Объект {obj_id} удалён (204)")
