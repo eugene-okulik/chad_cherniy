@@ -9,7 +9,7 @@ load_dotenv()
 
 base_url = os.getenv("MAIN_URL")
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def start_end_text():
     ic('\nbefore test')
     yield
@@ -21,12 +21,28 @@ def info():
     yield
     ic("\nTesting completed")
 
+@pytest.fixture(scope="function")
+def created_object():
+    # Создаём объект
+    body = {"name": "TestObj", "data": {"temp": True}}
+    response = requests.post(
+        f"{base_url}/object",
+        timeout=20,
+        json=body
+    )
+    assert response.status_code == 201, f"Failed to create: {response.status_code}"
+    obj = response.json()
+    ic(f"📦 Fixture: создан объект #{obj['id']}")
+    
+    yield obj 
+
 def test_all_objects(start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
     # data = response.json()
     # ic(data)
 
+# POST /object - создание объекта
 @pytest.mark.critical
 @pytest.mark.parametrize(
     'people', [
@@ -35,7 +51,6 @@ def test_all_objects(start_end_text):
         {"name": "Vin3", "data": {"second_name": "Diezel3", "age": 33}}
         ]
     )
-# POST /object - создание объекта
 def test_create_object(start_end_text, info, people):
     body = {
         "name": people["name"],
@@ -50,55 +65,55 @@ def test_create_object(start_end_text, info, people):
     ic(result)
     return result
 
-
 # PUT /object/<id> — полное обновление
-def test_put_obj(start_end_text, obj_id):
+def test_put_object(start_end_text, created_object):
+    obj_id = created_object["id"]
+    
     body = {
         "name": "Shaman The Great",
         "data": {"second_name": "Really", "age": 19}
     }
     response = requests.put(
         f"{base_url}/object/{obj_id}",
+        timeout=20,
         json=body,
     )
-    assert response.status_code == 200, 'Not Success'
+    assert response.status_code == 200, f'PUT failed: {response.status_code}'
     data = response.json()
+    
     assert data["id"] == obj_id
-    ic(data)
-
+    assert data["name"] == body["name"]
+    assert data["data"] == body["data"]
 
 # PATCH /object/<id> — частичное обновление
-def test_update_object_patch(start_end_text, obj_id):
+def test_patch_object(start_end_text, created_object):
+    obj_id = created_object["id"]
+    
     body = {"name": "Gondurasina"}
-    response = requests.patch(f"{base_url}/object/{obj_id}", json=body, timeout=20)
-    assert response.status_code == 200
+    response = requests.patch(
+        f"{base_url}/object/{obj_id}",
+        json=body,
+        timeout=20
+    )
+    assert response.status_code == 200, f'PATCH failed: {response.status_code}'
     result = response.json()
-    ic(result)
-    return result
-
+    
+    assert result["name"] == "Gondurasina"
+    
+    ic(f"✏️ PATCH обновлён объект #{obj_id}: {result['name']}")
 
 # DELETE /object/<id> — удаление
-def test_delete_object(start_end_text, obj_id):
-    response = requests.delete(f"{base_url}/object/{obj_id}")
-    assert response.status_code == 204
-    ic(f"✅ Объект {obj_id} удалён (204)")
-    return True
-
-
-# ЗАПУСК СЦЕНАРИЯ
-if __name__ == "__main__":
-
-
-    # 1. Создаём объект и сразу получаем его ID
-    new_obj = test_create_object()
-    obj_id = new_obj["id"]
-    ic(f"Создан объект с ID: {obj_id}")
-
-    # 2.
-    test_put_obj(obj_id)
-    test_update_object_patch(obj_id)
-    test_delete_object(obj_id)
-
-    # 3. Проверяем, что объект действительно удалён
-    response = requests.get(f"{base_url}/object/{obj_id}", timeout=10)
-    assert response.status_code == 404, "Объект должен быть удалён"
+def test_delete_object(start_end_text, created_object):
+    obj_id = created_object["id"]
+    
+    response = requests.delete(
+        f"{base_url}/object/{obj_id}",
+        timeout=20
+    )
+    assert response.status_code == 204, f'DELETE failed: {response.status_code}'
+    ic(f"🗑️ Объект #{obj_id} удалён (204)")
+    
+    # Проверяем, что объект действительно удалён
+    check = requests.get(f"{base_url}/object/{obj_id}", timeout=10)
+    assert check.status_code == 404, "Объект должен быть удалён"
+    ic(f"✅ Подтверждено: объект #{obj_id} не найден (404)")
