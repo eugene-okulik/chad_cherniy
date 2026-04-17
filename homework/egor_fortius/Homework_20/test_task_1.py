@@ -9,17 +9,20 @@ load_dotenv()
 
 base_url = os.getenv("MAIN_URL")
 
+
 @pytest.fixture(scope="function")
 def start_end_text():
     ic('before test')
     yield
     ic('after test')
 
+
 @pytest.fixture(scope="session")
 def info():
     ic("Start testing")
     yield
     ic("Testing completed")
+
 
 @pytest.fixture(scope="function")
 def created_object():
@@ -33,14 +36,16 @@ def created_object():
     assert response.status_code == 200, f"Failed to create: {response.status_code}"
     obj = response.json()
     ic(f"📦 Fixture: создан объект #{obj['id']}")
-    
+
     yield obj 
+
 
 def test_all_objects(info, start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
     # data = response.json()
     # ic(data)
+
 
 # POST /object - создание объекта
 @pytest.mark.critical
@@ -49,8 +54,8 @@ def test_all_objects(info, start_end_text):
         {"name": "Vin", "data": {"second_name": "Diezel", "age": 31}},
         {"name": "Vin2", "data": {"second_name": "Diezel2", "age": 32}},
         {"name": "Vin3", "data": {"second_name": "Diezel3", "age": 33}}
-        ]
-    )
+    ]
+)
 def test_create_object(start_end_text, people):
     body = {
         "name": people["name"],
@@ -63,6 +68,7 @@ def test_create_object(start_end_text, people):
     assert response.status_code == 200, 'Created'
     result = response.json()
     ic(result)
+
 
 # PUT /object/<id> — полное обновление
 def test_put_object(start_end_text, created_object):
@@ -84,6 +90,7 @@ def test_put_object(start_end_text, created_object):
     assert data["name"] == body["name"]
     assert data["data"] == body["data"]
 
+
 # PATCH /object/<id> — частичное обновление
 def test_patch_object(start_end_text, created_object):
     obj_id = created_object["id"]
@@ -100,6 +107,7 @@ def test_patch_object(start_end_text, created_object):
     assert result["name"] == "Gondurasina"
     
     ic(f"✏️ PATCH обновлён объект #{obj_id}: {result['name']}")
+
 
 # DELETE /object/<id> — удаление
 def test_delete_object(start_end_text, created_object):
