@@ -8,3 +8,6 @@ credentials.py
 .env
 .vscode
 settings.json
+info.ipynb
+allure-results/
+allure-reports/
