@@ -26,7 +26,7 @@ def info():
 
 @pytest.fixture(scope="function")
 def created_object():
-    # Создаём объект
+    # Создаём новый объект
     body = {"name": "TestObj", "data": {"temp": True}}
     response = requests.post(
         f"{base_url}/object",
