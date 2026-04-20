@@ -71,6 +71,7 @@ def test_create_object(start_end_text, people):
 
 
 # PUT /object/<id> — полное обновление
+@pytest.mark.medium
 def test_put_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
@@ -92,6 +93,7 @@ def test_put_object(start_end_text, created_object):
 
 
 # PATCH /object/<id> — частичное обновление
+@pytest.mark.medium
 def test_patch_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
@@ -110,6 +112,7 @@ def test_patch_object(start_end_text, created_object):
 
 
 # DELETE /object/<id> — удаление
+@pytest.mark.critial
 def test_delete_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
