@@ -2,7 +2,9 @@ from dotenv import load_dotenv
 import requests
 from icecream import ic
 import os
+import allure
 import pytest
+from allure_commons.types import Severity, LabelType
 
 
 load_dotenv()
@@ -24,6 +26,13 @@ def info():
     ic("Testing completed")
 
 
+@allure.epic("Testing_API")
+@allure.feature("Таблица Объектов")
+@allure.story("Получение списка всех объектов")
+@allure.title("Получаем полный список объектов")
+@allure.severity(Severity.CRITICAL)
+@allure.tag("table", "objects", "smoke")
+@allure.testcase("TC-GET_OBJECTS-001")
 def test_all_objects(info, start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
