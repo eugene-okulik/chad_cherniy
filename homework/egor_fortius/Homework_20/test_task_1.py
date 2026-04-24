@@ -2,7 +2,9 @@ from dotenv import load_dotenv
 import requests
 from icecream import ic
 import os
+import allure
 import pytest
+from allure_commons.types import Severity, LabelType
 
 
 load_dotenv()
@@ -24,22 +26,13 @@ def info():
     ic("Testing completed")
 
 
-@pytest.fixture(scope="function")
-def created_object():
-    # Создаём новый объект
-    body = {"name": "TestObj", "data": {"temp": True}}
-    response = requests.post(
-        f"{base_url}/object",
-        timeout=20,
-        json=body
-    )
-    assert response.status_code == 200, f"Failed to create: {response.status_code}"
-    obj = response.json()
-    ic(f"📦 Fixture: создан объект #{obj['id']}")
-
-    yield obj
-
-
+@allure.epic("Testing_API")
+@allure.feature("Таблица Объектов")
+@allure.story("Получение списка всех объектов")
+@allure.title("Получаем полный список объектов")
+@allure.severity(Severity.CRITICAL)
+@allure.tag("table", "objects", "smoke")
+@allure.testcase("TC-GET_OBJECTS-001")
 def test_all_objects(info, start_end_text):
     response = requests.get(f"{base_url}/object", timeout=20)
     assert response.status_code == 200, 'Not Success'
@@ -71,6 +64,7 @@ def test_create_object(start_end_text, people):
 
 
 # PUT /object/<id> — полное обновление
+@pytest.mark.medium
 def test_put_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
@@ -92,6 +86,7 @@ def test_put_object(start_end_text, created_object):
 
 
 # PATCH /object/<id> — частичное обновление
+@pytest.mark.medium
 def test_patch_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
@@ -110,6 +105,7 @@ def test_patch_object(start_end_text, created_object):
 
 
 # DELETE /object/<id> — удаление
+@pytest.mark.critial
 def test_delete_object(start_end_text, created_object):
     obj_id = created_object["id"]
 
