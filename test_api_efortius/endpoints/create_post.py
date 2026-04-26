@@ -1,17 +1,17 @@
 import os
 import requests
+import allure
 from dotenv import load_dotenv
+from test_api_efortius.endpoints.base_endpoint import BaseEndpoint
 
 
 load_dotenv()
 
 
-class CreatePost:
+class CreatePost(BaseEndpoint):
     url = os.getenv('MAIN_URL')
-    response = None
-    status_code = None
-    json = None
 
+    @allure.step('Create new Post')
     def new_post(self, body):
         self.response = requests.post(
             f"{self.url}/object",

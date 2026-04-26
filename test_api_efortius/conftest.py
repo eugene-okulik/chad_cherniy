@@ -1,26 +1,22 @@
 import pytest
-import requests
-import os
-from dotenv import load_dotenv
-from icecream import ic
+import logging
+from test_api_efortius.endpoints.create_post import CreatePost
 
 
-load_dotenv()
-
-base_url = os.getenv("MAIN_URL")
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="function")
 def created_object():
-    # Создаём новый объект
     body = {"name": "TestObj", "data": {"temp": True}}
-    response = requests.post(
-        f"{base_url}/object",
-        timeout=20,
-        json=body
-    )
-    assert response.status_code == 200, f"Failed to create: {response.status_code}"
-    obj = response.json()
-    ic(f"📦 Fixture: создан объект #{obj['id']}")
+    logger.info(f"Тело объекта: {body}")
 
-    yield obj
+    logger.info("Создаем новый объект")
+    create_object = CreatePost()
+    create_object.new_post(body)
+    response = create_object.json
+    logger.debug(f"Получен ответ: {response}")
+
+    create_object.check_status_code(200)
+
+    yield response

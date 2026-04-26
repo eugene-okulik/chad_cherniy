@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 @pytest.mark.critical
 @pytest.mark.parametrize(
     'people', [
-        {"name": "Vin", "data": {"second_name": "Diezel", "age": 31}},
-        {"name": "Vin2", "data": {"second_name": "Diezel2", "age": 32}},
-        {"name": "Vin3", "data": {"second_name": "Diezel3", "age": 33}}
+        {"name": "Vin11", "data": {"second_name": "Diezel11", "age": 131}},
+        {"name": "Vin12", "data": {"second_name": "Diezel12", "age": 132}},
+        {"name": "Vin13", "data": {"second_name": "Diezel13", "age": 33}}
     ]
 )
 def test_create_object(people):
@@ -23,13 +23,12 @@ def test_create_object(people):
             "name": people["name"],
             "data": people["data"]
         }
-    with allure.step('Send request'):
-        create_object = CreatePost()
-        create_object.new_post(body)
-        response = create_object.json
-        logger.debug(f"Получен ответ: {response}")
+    create_object = CreatePost()
+    create_object.new_post(body)
+    response = create_object.json
+    logger.debug(f"Получен ответ: {response}")
+
     with allure.step('Check response'):
-        actual_status = create_object.response.status_code if hasattr(create_object,
-            'response') else create_object.status_code
-        logger.info(f"🔍 Ожидаемый статус: 200, Фактический: {actual_status}")
-        assert actual_status == 200, f'Created: ожидался 200, получено {actual_status}'
+        create_object.check_status_code(200)
+        assert response["name"] == people["name"]
+        assert response["data"] == people["data"]
