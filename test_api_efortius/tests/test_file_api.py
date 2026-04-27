@@ -39,21 +39,21 @@ def test_put_object(created_object):
     logger.info("Обновление объекта полное")
     obj_id = created_object["id"]
 
-    body = {
+    payload = {
         "name": "Vishnya",
         "data": {"second_name": "Shaman", "age": 21}
     }
 
     update_object = UpdatePut()
-    update_object.update_put(body, obj_id)
+    update_object.update_put(payload, obj_id)
     response = update_object.json
 
     logger.debug(f"Получен ответ: {response}")
     update_object.check_status_code(200)
 
     assert int(response["id"]) == obj_id
-    assert response["name"] == body["name"]
-    assert response["data"] == body["data"]
+    assert response["name"] == payload["name"]
+    assert response["data"] == payload["data"]
 
 
 # PATCH /object/<id> — частичное обновление
@@ -62,25 +62,26 @@ def test_patch_object(created_object):
     logger.info("Обновление объекта частичное")
     obj_id = created_object["id"]
 
-    body = {"name": "Plazenia"}
+    payload = {"name": "Plazenia"}
 
     update_object = UpdatePatch()
-    update_object.update_patch(body, obj_id)
+    update_object.update_patch(payload, obj_id)
     response = update_object.json
 
     logger.debug(f"Получен ответ: {response}")
     update_object.check_status_code(200)
 
-    assert response["name"] == "Plazenia"
+    assert response["name"] == payload["name"]
 
 
 # DELETE /object/<id> — удаление
-@pytest.mark.critial
+@pytest.mark.critical
 def test_delete_object(created_object):
     obj_id = created_object["id"]
 
     delete_object = DeleteObject()
     delete_object.delete_obj(obj_id)
+    response = delete_object.json
 
-    logger.debug(f"Получен ответ statuscode: {delete_object.status_code}")
+    logger.debug(f"Получен ответ: {response}")
     delete_object.check_status_code(200)

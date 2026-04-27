@@ -2,7 +2,7 @@
 # run_allure.sh — запуск тестов с историей для Allure 2
 
 RESULTS="./allure-results"
-REPORT="./allure-report"
+REPORT="./allure-reports"
 
 echo "🧪 Запуск тестов..."
 pytest --alluredir=$RESULTS -v
