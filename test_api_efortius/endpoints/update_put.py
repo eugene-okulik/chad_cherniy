@@ -12,9 +12,9 @@ class UpdatePut(BaseEndpoint):
     url = os.getenv('MAIN_URL')
 
     @allure.step('Update Put')
-    def update_put(self, body):
+    def update_put(self, body, obj_id):
         self.response = requests.put(
-            f"{self.url}/object",
+            f"{self.url}/object/{obj_id}",
             timeout=20,
             json=body,
         )
