@@ -40,3 +40,17 @@ class BaseEndpoint:
         assert actual_status == expected_status, (
             f"Expected status code {expected_status}, got {actual_status}"
         )
+
+    @allure.step("Check field '{field_name}'")
+    def check_field_value(self, field_name, expected_value):
+        actual_value = self.json[field_name]
+        assert actual_value == expected_value, (
+            f"Expected '{field_name}' to be {expected_value}, got {actual_value}"
+        )
+
+    @allure.step("Check object id is {expected_id}")
+    def check_object_id(self, expected_id):
+        actual_id = int(self.json["id"])
+        assert actual_id == expected_id, (
+            f"Expected object id {expected_id}, got {actual_id}"
+        )

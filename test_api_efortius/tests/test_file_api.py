@@ -28,9 +28,8 @@ def test_create_object(people):
 
     logger.debug(f"Получен ответ: {response}")
     create_object.check_status_code(200)
-
-    assert response["name"] == people["name"]
-    assert response["data"] == people["data"]
+    create_object.check_field_value("name", people["name"])
+    create_object.check_field_value("data", people["data"])
 
 
 # PUT /object/<id> — полное обновление
@@ -50,10 +49,9 @@ def test_put_object(created_object):
 
     logger.debug(f"Получен ответ: {response}")
     update_object.check_status_code(200)
-
-    assert int(response["id"]) == obj_id
-    assert response["name"] == payload["name"]
-    assert response["data"] == payload["data"]
+    update_object.check_object_id(obj_id)
+    update_object.check_field_value("name", payload["name"])
+    update_object.check_field_value("data", payload["data"])
 
 
 # PATCH /object/<id> — частичное обновление
@@ -70,8 +68,7 @@ def test_patch_object(created_object):
 
     logger.debug(f"Получен ответ: {response}")
     update_object.check_status_code(200)
-
-    assert response["name"] == payload["name"]
+    update_object.check_field_value("name", payload["name"])
 
 
 # DELETE /object/<id> — удаление
