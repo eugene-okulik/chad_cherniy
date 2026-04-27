@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 
 TEST_DATA = [
-        {"name": "Viki", "data": {"second_name": "Piki", "age": 18}},
-        {"name": "June", "data": {"second_name": "Mune", "age": 19}},
-        {"name": "Margo", "data": {"second_name": "Fargo", "age": 20}}
+    {"name": "Viki", "data": {"second_name": "Piki", "age": 18}},
+    {"name": "June", "data": {"second_name": "Mune", "age": 19}},
+    {"name": "Margo", "data": {"second_name": "Fargo", "age": 20}}
 ]
 
 
