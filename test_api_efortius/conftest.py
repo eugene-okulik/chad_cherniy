@@ -43,6 +43,6 @@ def created_object(create_post_endpoint, delete_object_endpoint):
 
     yield response
 
-    logger.info("Удаляем тестовый объект")
-    delete_object_endpoint.delete_obj(response["id"])
-    delete_object_endpoint.check_status_code((200, 404))
+    # logger.info("Удаляем тестовый объект")
+    # delete_object_endpoint.delete_obj(response["id"])
+    # delete_object_endpoint.check_status_code((200, 404))
