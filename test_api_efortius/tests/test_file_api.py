@@ -16,7 +16,7 @@ TEST_DATA = [
 @pytest.mark.critical
 @pytest.mark.parametrize('people', TEST_DATA)
 def test_create_object(people, create_post_endpoint):
-    create_post_endpoint.new_post(payload=people)
+    create_post_endpoint.create_new_post(payload=people)
     create_post_endpoint.check_status_code(200)
     create_post_endpoint.check_field_value("name", people["name"])
     create_post_endpoint.check_field_value("data", people["data"])

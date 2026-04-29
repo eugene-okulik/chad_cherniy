@@ -35,7 +35,7 @@ def created_object(create_post_endpoint, delete_object_endpoint):
     logger.info(f"Тело объекта: {payload}")
 
     logger.info("Создаем новый объект")
-    create_post_endpoint.new_post(payload)
+    create_post_endpoint.create_new_post(payload)
     response = create_post_endpoint.json
 
     logger.debug(f"Получен ответ: {response}")
