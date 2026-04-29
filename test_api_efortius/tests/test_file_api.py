@@ -1,9 +1,5 @@
 import pytest
 import logging
-from test_api_efortius.endpoints.create_post import CreatePost
-from test_api_efortius.endpoints.delete import DeleteObject
-from test_api_efortius.endpoints.update_patch import UpdatePatch
-from test_api_efortius.endpoints.update_put import UpdatePut
 
 
 logger = logging.getLogger(__name__)
@@ -19,23 +15,16 @@ TEST_DATA = [
 # POST /object - создание объекта
 @pytest.mark.critical
 @pytest.mark.parametrize('people', TEST_DATA)
-def test_create_object(people):
-    logger.info(f"Начинаем создание объекта: {people['name']}")
-
-    create_object = CreatePost()
-    create_object.new_post(payload=people)
-    response = create_object.json
-
-    logger.debug(f"Получен ответ: {response}")
-    create_object.check_status_code(200)
-    create_object.check_field_value("name", people["name"])
-    create_object.check_field_value("data", people["data"])
+def test_create_object(people, create_post_endpoint):
+    create_post_endpoint.new_post(payload=people)
+    create_post_endpoint.check_status_code(200)
+    create_post_endpoint.check_field_value("name", people["name"])
+    create_post_endpoint.check_field_value("data", people["data"])
 
 
 # PUT /object/<id> — полное обновление
 @pytest.mark.medium
-def test_put_object(created_object):
-    logger.info("Обновление объекта полное")
+def test_put_object(created_object, update_put_endpoint):
     obj_id = created_object["id"]
 
     payload = {
@@ -43,42 +32,29 @@ def test_put_object(created_object):
         "data": {"second_name": "Shaman", "age": 21}
     }
 
-    update_object = UpdatePut()
-    update_object.update_put(payload, obj_id)
-    response = update_object.json
-
-    logger.debug(f"Получен ответ: {response}")
-    update_object.check_status_code(200)
-    update_object.check_object_id(obj_id)
-    update_object.check_field_value("name", payload["name"])
-    update_object.check_field_value("data", payload["data"])
+    update_put_endpoint.update_put(payload, obj_id)
+    update_put_endpoint.check_status_code(200)
+    update_put_endpoint.check_object_id(obj_id)
+    update_put_endpoint.check_field_value("name", payload["name"])
+    update_put_endpoint.check_field_value("data", payload["data"])
 
 
 # PATCH /object/<id> — частичное обновление
 @pytest.mark.medium
-def test_patch_object(created_object):
-    logger.info("Обновление объекта частичное")
+def test_patch_object(created_object, update_patch_endpoint):
     obj_id = created_object["id"]
 
     payload = {"name": "Plazenia"}
 
-    update_object = UpdatePatch()
-    update_object.update_patch(payload, obj_id)
-    response = update_object.json
-
-    logger.debug(f"Получен ответ: {response}")
-    update_object.check_status_code(200)
-    update_object.check_field_value("name", payload["name"])
+    update_patch_endpoint.update_patch(payload, obj_id)
+    update_patch_endpoint.check_status_code(200)
+    update_patch_endpoint.check_field_value("name", payload["name"])
 
 
 # DELETE /object/<id> — удаление
 @pytest.mark.critical
-def test_delete_object(created_object):
+def test_delete_object(created_object, delete_object_endpoint):
     obj_id = created_object["id"]
 
-    delete_object = DeleteObject()
-    delete_object.delete_obj(obj_id)
-    response = delete_object.json
-
-    logger.debug(f"Получен ответ: {response}")
-    delete_object.check_status_code(200)
+    delete_object_endpoint.delete_obj(obj_id)
+    delete_object_endpoint.check_status_code(200)
