@@ -1,6 +1,5 @@
 import logging
 import os
-
 import allure
 import requests
 from dotenv import load_dotenv
