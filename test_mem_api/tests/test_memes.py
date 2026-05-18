@@ -21,7 +21,6 @@ def test_created_meme_in_memes_list(get_meme_endpoint, created_meme, auth_token)
     get_meme_endpoint.check_status_code(200)
 
 
-
 @pytest.mark.critical
 def test_update_meme(meme_put_endpoint, get_meme_endpoint, created_meme, updated_meme_payload, auth_token):
     updated_meme_payload["id"] = created_meme["id"]
