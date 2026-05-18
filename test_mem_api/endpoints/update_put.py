@@ -1,13 +1,13 @@
-import allure
 import logging
-from test_api_efortius.endpoints.base_endpoint import BaseEndpoint
+import allure
+from test_mem_api.endpoints.base_endpoint import BaseEndpoint
 
 
 logger = logging.getLogger(__name__)
 
 
-class UpdatePut(BaseEndpoint):
-    @allure.step('Update Put')
-    def update_put(self, payload, obj_id):
-        logger.info("Updating object with PUT: %s", obj_id)
-        return self._request("PUT", f"/object/{obj_id}", payload=payload)
+class PutMeme(BaseEndpoint):
+    @allure.step("Update meme with PUT")
+    def update_meme(self, meme_id, payload, token=None):
+        logger.info("Updating meme with id %s", meme_id)
+        return self._request("PUT", f"/meme/{meme_id}", payload=payload, token=token)
