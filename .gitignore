@@ -10,4 +10,8 @@ credentials.py
 settings.json
 info.ipynb
 allure-results/
+allure-report/
 allure-reports/
+.github
+test_mem_api/.meme_token
+test_mem_api/.pytest_cache/
