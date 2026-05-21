@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,7 +8,6 @@ from selenium.webdriver.chrome.options import Options
 options = Options()
 options.headless = True
 options.add_argument('start-maximized')
-options.add_experimental_option('detach', True) #Не будет закрываться хром после прогона теста
 driver = webdriver.Chrome(options=options)
 
 def test_site():
