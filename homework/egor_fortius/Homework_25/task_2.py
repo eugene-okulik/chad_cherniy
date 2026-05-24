@@ -6,10 +6,11 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 
 options = Options()
-#options.headless = True
+# options.headless = True
 options.add_argument('start-maximized')
-#options.add_experimental_option('detach', True)
+# options.add_experimental_option('detach', True)
 driver = webdriver.Chrome(options=options)
+
 
 def test_site():
     driver.get("https://demoqa.com/automation-practice-form")
@@ -33,15 +34,22 @@ def test_site():
         (By.XPATH, '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[1]/div/div[1]/select')))
     month.click()
     select_month = wait.until(EC.presence_of_element_located(
-        (By.XPATH, '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[1]/div/div[1]/select/option[1]')))
+        (By.XPATH,
+         '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[1]/div/div[1]/select/option[1]')
+    ))
     select_month.click()
     year = wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, '.react-datepicker__year-dropdown-container.react-datepicker__year-dropdown-container--select > select')))
+        (By.CSS_SELECTOR,
+         '.react-datepicker__year-dropdown-container.react-datepicker__year-dropdown-container--select > select')
+    ))
     year.click()
     select_year = wait.until(EC.element_to_be_clickable(
-        (By.XPATH, '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[1]/div/div[2]/select/option[99]')))
+        (By.XPATH,
+         '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[1]/div/div[2]/select/option[99]')
+    ))
     select_year.click()
-    day = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[2]/div[2]/div[3]/div[4]')))
+    day = wait.until(EC.element_to_be_clickable(
+        (By.XPATH, '//*[@id="dateOfBirth"]/div[2]/div[2]/div/div/div/div/div[2]/div[2]/div[3]/div[4]')))
     day.click()
     subject = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="subjectsInput"]')))
     subject.click()
@@ -67,7 +75,9 @@ def test_site():
 
     wait.until(EC.presence_of_element_located((By.ID, "submit"))).click()
 
-    print(wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".table.table-dark.table-striped.table-bordered.table-hover"))).text)
+    print(wait.until(EC.visibility_of_element_located(
+        (By.CSS_SELECTOR, ".table.table-dark.table-striped.table-bordered.table-hover"))).text)
+
 
 if __name__ == "__main__":
     test_site()

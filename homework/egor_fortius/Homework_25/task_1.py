@@ -10,6 +10,7 @@ options.headless = True
 options.add_argument('start-maximized')
 driver = webdriver.Chrome(options=options)
 
+
 def test_site():
     driver.get("https://www.qa-practice.com/elements/input/simple")
     driver.maximize_window()
