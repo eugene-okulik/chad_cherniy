@@ -3,7 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-from time import sleep
+import time
+
 
 options = Options()
 # options.headless = True
@@ -17,6 +18,7 @@ def test_site():
     driver.maximize_window()
     wait = WebDriverWait(driver, timeout=10, poll_frequency=0.5)
 
+    driver.execute_script("window.scrollBy(0, 300);")
     first_name = wait.until(EC.presence_of_element_located((By.ID, 'firstName')))
     first_name.send_keys("Georgoian")
     last_name = wait.until(EC.presence_of_element_located((By.ID, 'lastName')))
@@ -60,16 +62,13 @@ def test_site():
     cur_adress = wait.until(EC.presence_of_element_located((By.ID, 'currentAddress')))
     cur_adress.send_keys("MilkeyWay, Sun system")
 
-    st_city_name = wait.until(EC.presence_of_element_located((By.ID, 'stateCity-label')))
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", st_city_name)
-    # sleep(2)
-    state = wait.until(EC.visibility_of_element_located((By.ID, 'state')))
+    state = driver.find_element(By.ID, 'react-select-3-input')
     state.click()
-    sel_state = wait.until(EC.visibility_of_element_located((By.ID, "react-select-3-option-1")))
+    sel_state = wait.until(EC.element_to_be_clickable((By.ID, "react-select-3-option-0")))
     sel_state.click()
-    # sleep(1)
+
     driver.find_element(By.ID, "city").click()
-    sel_city = wait.until(EC.visibility_of_element_located((By.ID, "react-select-4-option-1")))
+    sel_city = wait.until(EC.visibility_of_element_located((By.ID, "react-select-4-option-0")))
     sel_city.click()
 
     wait.until(EC.presence_of_element_located((By.ID, "submit"))).click()
