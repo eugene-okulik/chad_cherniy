@@ -21,12 +21,9 @@ def test_site_1():
 
     select = Select(driver.find_element(By.NAME, "choose_language"))
     select.select_by_value("1")
-    sleep(0.5)
     sel_text = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'form-select'))).text
-    sleep(0.5)
     submit = wait.until(EC.presence_of_element_located((By.ID, "submit-id-submit")))
     submit.click()
-    sleep(0.5)
     res_text = wait.until(EC.visibility_of_element_located((By.ID, "result-text"))).text
 
     return res_text == sel_text
