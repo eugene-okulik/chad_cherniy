@@ -17,7 +17,6 @@ driver = webdriver.Chrome(options=options)
 def test_site_1():
     driver.get("https://www.qa-practice.com/elements/select/single_select")
     driver.maximize_window()
-    driver.implicitly_wait(10)
     wait = WebDriverWait(driver, timeout=10, poll_frequency=0.5)
 
     select = Select(driver.find_element(By.NAME, "choose_language"))
@@ -36,7 +35,6 @@ def test_site_1():
 def test_site_2():
     driver.get("https://the-internet.herokuapp.com/dynamic_loading/2")
     driver.maximize_window()
-    driver.implicitly_wait(10)
     wait = WebDriverWait(driver, timeout=10, poll_frequency=0.5)
 
     start = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#start > button")))

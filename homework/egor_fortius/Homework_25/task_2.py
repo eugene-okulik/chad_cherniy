@@ -15,7 +15,6 @@ driver = webdriver.Chrome(options=options)
 def test_site():
     driver.get("https://demoqa.com/automation-practice-form")
     driver.maximize_window()
-    driver.implicitly_wait(10)
     wait = WebDriverWait(driver, timeout=10, poll_frequency=0.5)
 
     first_name = wait.until(EC.presence_of_element_located((By.ID, 'firstName')))
@@ -63,12 +62,12 @@ def test_site():
 
     st_city_name = wait.until(EC.presence_of_element_located((By.ID, 'stateCity-label')))
     driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", st_city_name)
-    sleep(2)
+    # sleep(2)
     state = wait.until(EC.visibility_of_element_located((By.ID, 'state')))
     state.click()
     sel_state = wait.until(EC.visibility_of_element_located((By.ID, "react-select-3-option-1")))
     sel_state.click()
-    sleep(1)
+    # sleep(1)
     driver.find_element(By.ID, "city").click()
     sel_city = wait.until(EC.visibility_of_element_located((By.ID, "react-select-4-option-1")))
     sel_city.click()
