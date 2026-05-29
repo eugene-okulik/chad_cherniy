@@ -2,7 +2,7 @@ venv
 .idea
 .DS_Store
 .pytest_cache
-.venv
+.venv1
 __pycache__
 credentials.py
 .env
@@ -11,3 +11,5 @@ settings.json
 info.ipynb
 allure-results/
 allure-reports/
+.venv
+selenium_info.ipynb
